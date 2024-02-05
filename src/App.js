@@ -7,35 +7,30 @@ import Loading from "./Loading/loading";
 import FastFoodList from "./FastFoodList/fastFoodList";
 import SearchBar from "./SearchBar/searchBar";
 import notFound from "./assets/images/404.png"
+import useAxios from "./useAxios";
 
 function App() {
-  const [loading, setLoading] = useState(false);
-  const [fastFoodItems, setFastFoods] = useState([]);
 
-  const fetchData = async (categoryId = null) => {
-    setLoading(true);
-    const response = await axios.get(
-      `/FastFood/list/${categoryId ? "?categoryId=" + categoryId : ""}`
-    );
-    setLoading(false);
-    setFastFoods(response.data);
-  };
+  const [url,setUrl]=useState("/FastFood/list")
+  const[fastFoodItems,,loading]=useAxios({
+    url
+  })
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+
 
   const filterItem = (categoryId) => {
-    fetchData(categoryId);
+    setUrl(`/FastFood/list/${categoryId ? "?categoryId=" + categoryId : ""}`)
+    // fetchData(categoryId);
   };
 
   const searchItems = async (term) => {
-    setLoading(true);
-    const response = await axios.get(
-      `/FastFood/search/${term ? "?term=" + term : ""}`
-    );
-    setLoading(false);
-    setFastFoods(response.data);
+    setUrl(`/FastFood/search/${term ? "?term=" + term : ""}`)
+    // setLoading(true);
+    // const response = await axios.get(
+    //   `/FastFood/search/${term ? "?term=" + term : ""}`
+    // );
+    // setLoading(false);
+    // setFastFoods(response.data);
   };
 
   const renderContent = () => {
