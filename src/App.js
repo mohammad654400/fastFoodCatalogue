@@ -23,10 +23,9 @@ function App() {
     fetchData();
   }, []);
 
-  const filterItem=(categoryId)=>{
-    fetchData(categoryId)
-
-  }
+  const filterItem = (categoryId) => {
+    fetchData(categoryId);
+  };
 
   const renderContent = () => {
     if (loading) {

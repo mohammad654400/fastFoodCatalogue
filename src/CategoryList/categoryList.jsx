@@ -31,7 +31,7 @@ const CategoryList = ({ filterItem }) => {
           <li
             className="nav-item"
             key={category.id}
-            onClick={() => filterItem(category.id )}
+            onClick={() => filterItem(category.id)}
           >
             <a href="#" className="nav-link">
               {category.name}
