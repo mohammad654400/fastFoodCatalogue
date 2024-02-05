@@ -5,10 +5,11 @@ import Header from "./Header/header";
 import axios from "./axios";
 import Loading from "./Loading/loading";
 import FastFoodList from "./FastFoodList/fastFoodList";
+import SearchBar from "./SearchBar/searchBar";
 
 function App() {
   const [loading, setLoading] = useState(false);
-  const [fastFoodItems, setFastFoodItem] = useState([]);
+  const [fastFoodItems, setFastFoods] = useState([]);
 
   const fetchData = async (categoryId = null) => {
     setLoading(true);
@@ -16,7 +17,7 @@ function App() {
       `/FastFood/list/${categoryId ? "?categoryId=" + categoryId : ""}`
     );
     setLoading(false);
-    setFastFoodItem(response.data);
+    setFastFoods(response.data);
   };
 
   useEffect(() => {
@@ -25,6 +26,15 @@ function App() {
 
   const filterItem = (categoryId) => {
     fetchData(categoryId);
+  };
+
+  const searchItems = async (term) => {
+    setLoading(true);
+    const response = await axios.get(
+      `/FastFood/search/${term ? "?term=" + term : ""}`
+    );
+    setLoading(false);
+    setFastFoods(response.data);
   };
 
   const renderContent = () => {
@@ -37,7 +47,9 @@ function App() {
   return (
     <div className="wrapper bg-faded-dark">
       <Header></Header>
-      <CategoryList filterItem={filterItem}></CategoryList>
+      <CategoryList filterItem={filterItem}>
+        <SearchBar searchItems={searchItems}/>
+      </CategoryList>
 
       <div className="container mt-4 ">{renderContent()}</div>
     </div>
